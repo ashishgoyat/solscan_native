@@ -13,6 +13,7 @@ import {
     Alert,
     Linking,
 } from "react-native";
+import { useRouter } from 'expo-router';
 
 const RPC = "https://api.mainnet-beta.solana.com";
 
@@ -64,12 +65,13 @@ const timeAgo = (ts: number) => {
     return `${Math.floor(s / 86400)}d ago`;
 };
 
-export function WalletScreen() {
+export default function WalletScreen() {
     const [address, setAddress] = useState("");
     const [loading, setLoading] = useState(false);
     const [balance, setBalance] = useState<number | null>(null);
     const [tokens, setTokens] = useState<any[]>([]);
     const [txns, setTxns] = useState<any[]>([]);
+    const router = useRouter();
 
     const search = async () => {
         const addr = address.trim();
@@ -164,16 +166,20 @@ export function WalletScreen() {
                         keyExtractor={(t) => t.mint}
                         scrollEnabled={false}
                         renderItem={({ item, index }) => (
-                            <View style={[styles.row, index === tokens.length - 1 && styles.rowLast]}>
-                                <View style={styles.rowIconWrap}>
-                                    <Text style={styles.rowIcon}>⬖</Text>
+                            <TouchableOpacity onPress={() => {
+                                router.push(`/token/${item.mint}`)
+                            }}>
+                                <View style={[styles.row, index === tokens.length - 1 && styles.rowLast]}>
+                                    <View style={styles.rowIconWrap}>
+                                        <Text style={styles.rowIcon}>⬖</Text>
+                                    </View>
+                                    <View style={styles.rowLeft}>
+                                        <Text style={styles.rowText}>{short(item.mint, 6)}</Text>
+                                        <Text style={styles.rowSub}>{item.amount.toFixed(4)} tokens</Text>
+                                    </View>
+                                    <Text style={styles.rowAmount}>{item.amount.toFixed(4)}</Text>
                                 </View>
-                                <View style={styles.rowLeft}>
-                                    <Text style={styles.rowText}>{short(item.mint, 6)}</Text>
-                                    <Text style={styles.rowSub}>{item.amount.toFixed(4)} tokens</Text>
-                                </View>
-                                <Text style={styles.rowAmount}>{item.amount.toFixed(4)}</Text>
-                            </View>
+                            </TouchableOpacity>
                         )}
                     />
                 </View>
