@@ -6,8 +6,8 @@ export default function TabLayout() {
         <Tabs screenOptions={{
             headerShown: false,
             tabBarStyle: {
-                backgroundColor: "#16161D",
-                borderTopColor: "#2A2A35"
+                backgroundColor: "#050d05",
+                borderTopColor: "#0f2a0f"
             },
             tabBarActiveTintColor: "#14F195",
             tabBarInactiveTintColor: "#6B7280",
@@ -23,6 +23,13 @@ export default function TabLayout() {
             <Tabs.Screen name="swap" options={{
                 title: "Swap", tabBarIcon: ({ color, size }) => (
                     <Ionicons name="swap-horizontal" size={size} color={color} />
+                ),
+            }}
+            />
+
+            <Tabs.Screen name="settings" options={{
+                title: "Settings", tabBarIcon: ({ color, size }) => (
+                    <Ionicons name="settings" size={size} color={color} />
                 ),
             }}
             />

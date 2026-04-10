@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   ScrollView,
+  Linking,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
@@ -89,10 +90,7 @@ export default function TokenDetailScreen() {
       {/* View on Solscan */}
       <TouchableOpacity
         style={styles.linkButton}
-        onPress={() => {
-          // We'll add Linking.openURL later
-          // For now this is a placeholder
-        }}
+        onPress={() => Linking.openURL(`https://solscan.io/token/${mint}`)}
       >
         <Text style={styles.linkButtonText}>View on Solscan ↗</Text>
       </TouchableOpacity>
@@ -103,7 +101,7 @@ export default function TokenDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0a0a1a",
+    backgroundColor: "#050d05",
     paddingTop: 60,
     paddingHorizontal: 16,
   },
@@ -111,7 +109,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#0a0a1a",
+    backgroundColor: "#050d05",
   },
   backButton: {
     flexDirection: "row",
@@ -132,8 +130,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   card: {
-    backgroundColor: "#1a1a2e",
+    backgroundColor: "#0f2a0f",
     borderRadius: 12,
+    borderWidth: 1,
     padding: 16,
     marginBottom: 12,
   },
@@ -145,7 +144,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   mintAddress: {
-    color: "#9945FF",
+    color: "#14F195",
     fontSize: 13,
     fontFamily: "monospace",
   },
@@ -166,17 +165,17 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: "#2a2a3e",
+    backgroundColor: "#0f2a0f",
   },
   linkButton: {
-    backgroundColor: "#9945FF20",
+    backgroundColor: "#0a1f0a",
     padding: 14,
     borderRadius: 10,
     alignItems: "center",
     marginTop: 8,
   },
   linkButtonText: {
-    color: "#9945FF",
+    color: "#14F195",
     fontSize: 14,
     fontWeight: "600",
   },
