@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "SolScan",
-    "slug": "SolScan",
-    "scheme": "solscan",
+    "name": "Soltrack",
+    "slug": "soltrack",
+    "scheme": "soltrack",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.webp",

@@ -87,12 +87,12 @@ export default function TokenDetailScreen() {
         </View>
       )}
 
-      {/* View on Solscan */}
+      {/* View on Explorer */}
       <TouchableOpacity
         style={styles.linkButton}
         onPress={() => Linking.openURL(`https://solscan.io/token/${mint}`)}
       >
-        <Text style={styles.linkButtonText}>View on Solscan ↗</Text>
+        <Text style={styles.linkButtonText}>View on Explorer</Text>
       </TouchableOpacity>
     </ScrollView>
   );

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Ionicons } from '@expo/vector-icons';
 import {
@@ -14,7 +14,7 @@ import {
     Alert,
     Linking,
 } from "react-native";
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useWalletStore } from '../../src/stores/wallet-store';
 
 
@@ -26,6 +26,7 @@ export default function WalletScreen() {
     const [tokens, setTokens] = useState<any[]>([]);
     const [txns, setTxns] = useState<any[]>([]);
     const router = useRouter();
+    const { wallet } = useLocalSearchParams<{ wallet?: string | string[] }>();
 
     const addToHistory = useWalletStore((s) => s.addToHistory);
     const searchHistory = useWalletStore((s) => s.searchHistory);
@@ -86,11 +87,12 @@ export default function WalletScreen() {
         return `${Math.floor(s / 86400)}d ago`;
     };
 
-    const search = async () => {
-        const addr = address.trim();
+    const searchByAddress = async (rawAddress?: string) => {
+        const addr = (rawAddress ?? address).trim();
         if (!addr) return Alert.alert("Enter a wallet address");
 
-        addToHistory(addr)
+        setAddress(addr);
+        addToHistory(addr);
         setLoading(true);
         try {
             const [bal, tok, txn] = await Promise.all([
@@ -107,13 +109,24 @@ export default function WalletScreen() {
         setLoading(false);
     };
 
+    const search = async () => {
+        await searchByAddress(address);
+    };
+
+    useEffect(() => {
+        const walletParam = Array.isArray(wallet) ? wallet[0] : wallet;
+        if (walletParam) {
+            void searchByAddress(walletParam);
+        }
+    }, [wallet]);
+
     return (<>
         <StatusBar style="light" />
         <ScrollView style={{ backgroundColor: "#050d05" }} contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
 
             {/* Header */}
             <View style={styles.header}>
-                <Text style={styles.headerTitle}>Solscan</Text>
+                <Text style={styles.headerTitle}>Soltrack</Text>
             </View>
 
             {/* Divider */}
@@ -135,8 +148,7 @@ export default function WalletScreen() {
                             key={addr}
                             style={styles.historyItem}
                             onPress={() => {
-                                setAddress(addr);
-                                search()
+                                void searchByAddress(addr);
                             }}
                         >
                             <Text style={styles.historyAddress} numberOfLines={1}>
